@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  my-pytorch-app:
+    build: .
+    container_name: pytorch_container
+    volumes:
+      - ./dl_gnn:/workspace/dl_gnn  # 将宿主机的dl_gnn目录挂载到容器的/workspace/dl_gnn
+    ports:
+      - "8888:8888"  # 如果需要可以映射端口，比如用于Jupyter Notebook
+    command: ["tail", "-f", "/dev/null"]  # 持续运行，不退出
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+
+networks:
+  default:
+    driver: bridge
