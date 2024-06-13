@@ -286,21 +286,6 @@ class GNNLF(torch.nn.Module):
             nn.Dropout(0.5) if use_drop_out else nn.Identity(),
             # 如果dir2mask_tailact为True，则在最后一个SiLU后也添加dropout层
         )
-        # TODO: 先把里面的output_network加进去。
-        # 先dropout = 0， 训练后得到模型的一些指标（比如: F1, Accuracy, AP）。比较train数据集和test数据集的指标。
-        #
-        # 过拟合：尝试下面的步骤。
-        # 欠拟合：尝试调整模型的结构，暂时忽略下面步骤。
-        # dropout设置成0
-        # .4 - 0.6
-        # 之间， 再次训练得到模型的一些指标。
-        #
-        # 如果过拟合明显好转，但指标也下降明显，可以尝试减少dropout（0.2）
-        # 如果过拟合还是严重，增加dropout（0.2）
-        # 重复上面的步骤多次，就可以找到理想的dropout值了。
-        #
-        # https: // zhuanlan.zhihu.com / p / 77609689
-        # 注：dropout过大是容易欠拟合。
 
         self.ev_decay = ev_decay
         self.use_dir1 = use_dir1
@@ -485,17 +470,6 @@ class GNNLF(torch.nn.Module):
         if self.global_frame:
             v = torch.sum(v, dim=1, keepdim=True).expand(-1, s.shape[1], -1, -1)
         atomic_direction_feature_list = []
-
-        # TODO: 将colfnet的关于局部坐标框架的特征添投影到hidden_dim的维度上
-        # local_frame_featutes = self.localframe_features(position_batch_center=atomic_positions,
-        #                                                 atomic_adjacency_matrix=atomic_adjacency_matrix)
-        # projected_local_frame_featutes = self.colfnet_features_projection(local_frame_featutes)
-        # # #
-        # if self.colfnet_features:
-        #     atomic_direction_feature_list.append(projected_local_frame_featutes)
-        #
-        # if self.colfnet_features:
-        #     atomic_direction_feature_list.append(local_frame_featutes)
         if self.use_dir1:
             atomic_direction_feature_1 = innerprod(
                 v.unsqueeze(1), normalized_atom_position_distances.unsqueeze(-1)
