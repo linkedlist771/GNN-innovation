@@ -27,7 +27,7 @@ fixed_params = {
 }
 
 diff_params = {
-    "demo":{"max_z": 80},  # a magic number would work if it is, the power of 2 or somethings
+    "demo":{"max_z": 32},  # a magic number would work if it is, the power of 2 or somethings
     "aspirin": {},
     "benzene": {
         "add_ef2dir": False,

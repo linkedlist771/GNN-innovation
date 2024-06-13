@@ -34,7 +34,7 @@ force_loss_weight = 1  # ratio of force loss
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--dataset", type=str, default="aspirin", help="molecule in the md17 dataset"
+    "--dataset", type=str, default="demo", help="molecule in the md17 dataset"
 )
 parser.add_argument(
     "--modname", type=str, default="0", help="filename used to save model"

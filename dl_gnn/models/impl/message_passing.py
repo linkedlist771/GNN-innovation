@@ -23,9 +23,6 @@ class GNNLFAttentionMessage(nn.Module):
             self,
             num_heads,
             hidden_channels,
-            # activation,
-            # attn_activation,
-            # cutoff,
             last_layer=False,
     ):
         super(GNNLFAttentionMessage, self).__init__()
@@ -148,12 +145,6 @@ class GNNLFAttentionMessage(nn.Module):
 
         return v_j, vec_j
 
-    # def edge_update(self, vec_i, vec_j, d_ij, f_ij):
-    #     w1 = self.vector_rejection(self.w_trg_proj(vec_i), d_ij)
-    #     w2 = self.vector_rejection(self.w_src_proj(vec_j), -d_ij)
-    #     w_dot = (w1 * w2).sum(dim=1)
-    #     df_ij = self.act(self.f_proj(f_ij)) * w_dot
-    #     return df_ij
 
     def aggregate(
             self,

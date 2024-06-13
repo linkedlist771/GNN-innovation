@@ -485,7 +485,6 @@ class GNNLF(torch.nn.Module):
         if self.global_frame:
             v = torch.sum(v, dim=1, keepdim=True).expand(-1, s.shape[1], -1, -1)
         atomic_direction_feature_list = []
-
         # TODO: 将colfnet的关于局部坐标框架的特征添投影到hidden_dim的维度上
         # local_frame_featutes = self.localframe_features(position_batch_center=atomic_positions,
         #                                                 atomic_adjacency_matrix=atomic_adjacency_matrix)
@@ -533,6 +532,10 @@ class GNNLF(torch.nn.Module):
         else:
             dir_project2_max = self.dir_proj(combined_direction_features)
             mask = mask * dir_project2_max
+
+
+
+
         # 然后就是把dir投影到mask的维度， 然后想乘， 带有广播机制的。
         # 所以这几步的目的就是构建特征矩阵， 把前面的特征全部
         # mask: batch_size x atomic_number x atomic_number x hid_dim => 还是类似于领接矩阵表示的边
