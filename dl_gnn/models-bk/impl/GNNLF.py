@@ -174,11 +174,6 @@ class GNNLF(torch.nn.Module):
         s = torch.sum(s, dim=1)
         s = self.output_module(s)
         s = s * self.y_std + self.y_mean
-        # print(f"y_std: {self.y_std}, y_mean: {self.y_mean}")
-        #  without this: Training (Epoch 42/6000): 100%|██████████| 8/8 [00:01<00:00,  5.91it/s, energy_loss=733, force_loss=25.8]
-        #  whith this: Training (Epoch 42/6000): 100%|██████████| 8/8 [00:01<00:00,  6.00it/s, energy_loss=280, force_loss=26.8]
-        #  seems that work for force loss, 但是这里面的y_std 和 y_mean 并没有改变。 其实也没必要改变， 因为这里的y_std 和 y_mean。
-
         return s
 
 

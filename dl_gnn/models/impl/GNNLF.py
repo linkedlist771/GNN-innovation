@@ -451,7 +451,7 @@ class GNNLF(torch.nn.Module):
                                  Shape: (batch_size, atomic_number, atomic_number, ef_dim)
         """
         batch_size, num_atoms, _ = atomic_positions.shape
-
+        # TODO: change the adjacent matrix into the edge list to dramaticlly reduce thesize
 
         (
             atomic_number_embedding,
@@ -460,6 +460,10 @@ class GNNLF(torch.nn.Module):
             edge_features,
         ) = self.mol2graph(atomic_numbers, atomic_positions)
         mask = self.ef_proj(edge_features) * atomic_adjacency_matrix.unsqueeze(-1)
+
+        # TODO: 现在把这个邻接矩阵的表示变成edge list的形式
+
+
         #  通过一层linear， 再让其特征增加， 并且与领接矩阵相乘， 使得其与领接矩阵的维度一致。
         #  unsqueeze(-1) 表示在最后一个维度上增加一个维度， 这里是增加一个维度， 使得其与mask的维度一致。
         #  mask 的维度为 batch_size x atomic_number x atomic_number x hid_dim
